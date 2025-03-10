@@ -3,37 +3,35 @@ const fullName = document.getElementById("name");
 const emailAddress = document.getElementById("email");
 const contact = document.getElementById("contactNumber");
 const emailSubject = document.getElementById("emailSubject");
-const textmessage = document.getElementById("usermessage");
+const usermessage = document.getElementById("usermessage");
 
 function emailSend() {
     const templateParams = {
-        fullName: fullName.value,
-        emailAddress: emailAddress.value,
-        contactNumber: contact.value,
-        emailSubject: emailSubject.value,
-        userMessage: textmessage.value
+        from_name: fullName.value,         // From Name
+        from_email: emailAddress.value,    // From Email
+        contact_number: contact.value,     // Contact Number
+        email_subject: emailSubject.value, // Email Subject
+        message: usermessage.value         // User Message (this will be inserted into the email body)
     };
 
-    console.log("Sending email with the following details:", templateParams);
-
     emailjs.send('service_w8ilxed', 'template_0owwmyk', templateParams, 'iSAOzElaaHnqgUnLd')
-        .then(response => {
-            console.log("Email send response:", response.status, response.text);
-            Swal.fire({
-                title: "Email Sent Successfully",
-                text: "Thank you for reaching out.",
-                icon: "success"
-            });
-            form.reset();
-        })
-        .catch(error => {
-            console.error("Email sending error:", error);
-            Swal.fire({
-                title: "Email Sending Failed",
-                text: "Please try again later.",
-                icon: "error"
-            });
+    .then((response) => {
+        console.log("Email sent successfully:", response);
+        Swal.fire({
+            title: "Email Sent Successfully",
+            text: "Thank you for reaching out.",
+            icon: "success"
         });
+        form.reset();
+    })
+    .catch((error) => {
+        console.error("Error sending email:", error);
+        Swal.fire({
+            title: "Email Sending Failed",
+            text: "Please try again later.",
+            icon: "error"
+        });
+    });
 }
 
 form.addEventListener("submit", (e) => {
